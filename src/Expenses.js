@@ -21,14 +21,15 @@ import Moment from 'react-moment';
     //     }
     // }
 
-     emptyItem = {
+    //  emptyItem = {
          
-         description : '',
-         expensedate : new Date(),
-         id : 104,                 
-         location : '',
-         category : {id:1 , name:'Travel'}
-     }
+    //      description : '',
+    //      expensedate : new Date(),
+    //     //  id : 104,                 
+    //      location : '',
+    //      category : {id:1 , name:'Travel'},
+    //      user: { id:2}
+    //  }
      
      constructor(props){
          super(props)
@@ -38,7 +39,15 @@ import Moment from 'react-moment';
             Categories : [],
             Expenses : [],
             date: new Date(),
-            Item : this.emptyItem
+            Item : {
+         
+                description : '',
+                expensedate :   new Date(),
+               //  id : 104,                 
+                location : '',
+                category : {id:1 , name:'Travel'},
+                user: { id:2}
+            }//this.emptyItem
     
           }
           this.handleSubmit = this.handleSubmit.bind(this);
@@ -50,7 +59,7 @@ import Moment from 'react-moment';
     async handleSubmit(event){
         const item = this.state.Item;
 
-        await fetch('/api/expenses',{
+        await fetch('/expenses',{
             method : 'POST',
             headers : {
                 'Accept' : 'application/json',
@@ -70,30 +79,37 @@ import Moment from 'react-moment';
       const target = event.target;
       const value = target.value;
       const name = target.name;
-      let item={...this.state.Item};
-      item[name] = value;
-      this.setState({item});
+    //   let item={...this.state.Item};
+    let Item= this.state.Item;
+
+      Item[name] = value;
+      this.setState({Item});
 
       console.log(this.state);
   }
     
    handleDateChange(date){
-       let item={...this.state.Item};
-       item.expensedate = date;
-       this.setState({item});
+       let Item=this.state.Item;
+       Item.expensedate = date;
+       this.setState({Item});
     //    console.log(item);
    }
 
-//   handleChange = date => {
+//   handleChange (date) {
+//     console.log("date")
+
 //         this.setState({
-//           startDate: date
+//           Item: {
+//               expensedate : date
+//           }
 //         });
+//         console.log("date")
 //       };
 
 
 
       async remove(id){
-          await fetch(`/api/expenses/${id}`, {              
+          await fetch(`/expenses/${id}`, {              
             method : 'DELETE',
             headers : {
                 'Accept' : 'application/json',
@@ -117,11 +133,16 @@ import Moment from 'react-moment';
           const response= await fetch('/api/categories');
           const body = await response.json();
           this.setState({Categories : body , isLoading: false});
+          console.log(body)
+
          
-          const responseExp= await fetch('/api/expenses');
+          const responseExp = await fetch('/expenses');
+        //   console.log(responseExp)
+
           const bodyExp = await responseExp.json();
           this.setState({Expenses : bodyExp , isLoading: false});
- 
+          console.log(bodyExp)
+
 
 
       }
@@ -130,9 +151,11 @@ import Moment from 'react-moment';
     
     
     render() {
+        console.log("hello")
+
         const title =<h3> Add Expense </h3>
         const { Categories } =this.state;
-        const {Expenses, isLoading} =this.state
+        const { Expenses, isLoading} =this.state
 
         if(isLoading)
          return(<div> Loding...</div>)
@@ -140,7 +163,7 @@ import Moment from 'react-moment';
 
        
         let optionList =
-            Categories.map(category => <option id={category.id}>
+            Categories.map(category => <option key={category.id} id={category.id}>
                 {category.name}</option>
            )
         
@@ -153,7 +176,7 @@ import Moment from 'react-moment';
 
                <td> <Moment date={expense.expensedate} format="YYYY/MM/DD" /> </td>
 
-               {/* <td> {expense.category.name}</td> */}
+               <td> {expense.category.name}</td>
                <td><Button size="sm" color="danger" onClick={ () => this.remove(expense.id)}>Delete</Button> </td>
                 
             </tr>)  
@@ -185,7 +208,7 @@ import Moment from 'react-moment';
 
                         <FormGroup>
                             <label htmlFor="city"> Expense Date </label>
-                            <DatePicker selected={this.state.date} onChange={this.handleDateChange} />
+                            <DatePicker selected={this.state.Item.expensedate} onChange={this.handleDateChange} />
                             </FormGroup>
                     <div className="row">
                         <FormGroup className="col-md-a mb-3">
@@ -206,7 +229,7 @@ import Moment from 'react-moment';
                 <h3> Expense List </h3>
                 <Table className="mt-4">
                 <thead>
-                    <tr>
+                    <tr>    
                         <th width="20%">Discription</th>
                         <th width="10%">Location</th>
                         <th width="10%">Date</th>
@@ -217,6 +240,7 @@ import Moment from 'react-moment';
                 </thead> 
                 <tbody>
                   {rows}
+                  {/* {console.log(rows)} */}
                 
                 </tbody>                
 

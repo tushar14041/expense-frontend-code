@@ -21,7 +21,11 @@ class App extends Component {
 
       </Switch>
      </Router>
+
     )
+      // "proxy": "http://localhost:8080",
+
+  // "proxy": "https://expense-app-1404.herokuapp.com",
   }
 }
 
