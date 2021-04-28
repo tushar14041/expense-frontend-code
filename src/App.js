@@ -14,10 +14,11 @@ class App extends Component {
     return (
      <Router>
        <Switch>
-          <Route path='/' exact={true} component={Home} />
-          <Route path='/categories' exact={true} component={Category} />
-          <Route path='/expenses' exact={true} component={Expenses} />
-          <Route path='/hello' exact={true} component={hello} />
+       <Route path='/' exact={true} component={Home} />
+       {/* <Route path='/' exact={true} component={Category} /> */}
+          <Route path='/categories1' exact={true} component={Category} />
+          <Route path='/expenses1' exact={true} component={Expenses} />
+          <Route path='/hello1' exact={true} component={hello} />
 
       </Switch>
      </Router>
