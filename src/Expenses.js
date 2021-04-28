@@ -130,18 +130,34 @@ import Moment from 'react-moment';
   
       async componentDidMount() {
 
-          const response= await fetch('/api/categories');
-          const body = await response.json();
-          this.setState({Categories : body , isLoading: false});
-          console.log(body)
+        //   const response= await fetch('/api/categories');
+        //   const body = await response.json();
+        //   this.setState({Categories : body , isLoading: false});
+        //   console.log(body)
 
          
-          const responseExp = await fetch('/expenses');
-        //   console.log(responseExp)
+        //   const responseExp = await fetch('/expenses');
+        // //   console.log(responseExp)
 
-          const bodyExp = await responseExp.json();
-          this.setState({Expenses : bodyExp , isLoading: false});
-          console.log(bodyExp)
+        //   const bodyExp = await responseExp.json();
+        //   this.setState({Expenses : bodyExp , isLoading: false});
+        //   console.log(bodyExp)
+
+           const response=  fetch('/api/categories');
+           const responseExp =  fetch('/expenses');
+         
+           const body1 = await response;
+           
+         const bodyExp1 =  await responseExp;
+
+           const body =  await body1.json();
+
+         const bodyExp = await bodyExp1.json();
+         console.log( bodyExp)
+ 
+         this.setState({Categories : body, Expenses : bodyExp , isLoading: false});
+
+
 
 
 
